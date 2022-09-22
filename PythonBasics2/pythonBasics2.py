@@ -10,6 +10,9 @@
 # returns the number of multiples of 3 in the range from 0
 # to n (including n).
 
+from multiprocessing.dummy.connection import families
+
+
 def count_threes(n):
   # YOUR CODE HERE
   count = 0
@@ -47,5 +50,19 @@ def longest_consecutive_repeating_char(s):
 # and ignore spaces (i.e. case insensitive).
 def is_palindrome(s):
   # YOUR CODE HERE
+  temp = s.replace(" ", "")
+  pali = ""
 
-  return
+  for i in range(len(temp)):
+    pali = pali + lowerChar(temp[i])
+    
+  if (pali == pali[::-1]):
+    return True
+  else:
+    return False
+
+def lowerChar(char):
+   if (ord(char) >= 65 and ord(char) <= 90):
+      return chr(ord(char)+32)
+   else:
+      return char
