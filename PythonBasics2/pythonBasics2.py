@@ -15,12 +15,22 @@ from multiprocessing.dummy.connection import families
 
 def count_threes(n):
   # YOUR CODE HERE
-  count = 0
-  for i in range(1, n + 1):
-    if (i % 3==0):
-      count += 1
+  threedict = {
+    3: 0,
+    6: 0,
+    9: 0
+  }
+  for i in range(0, len(n)):
+    num = int(n[i])
+    if (num == 3 or num == 6 or num == 9):
+      threedict[num] += 1
   
-  return count
+  if (threedict[3] > threedict[6] and threedict[3] > threedict[9]):
+    return 3
+  elif (threedict[6] > threedict[9]):
+    return 6
+  else:
+    return 9
 
 
 # Part B. longest_consecutive_repeating_char
@@ -28,18 +38,32 @@ def count_threes(n):
 # a string s and returns the character that has the longest consecutive repeat.
 def longest_consecutive_repeating_char(s):
   # YOUR CODE HERE
-  longCons = 0
-  longChar = ''
-  length = 0
-  for i in range(1, len(s)):
-    prevChar = s[i-1]
-    if (prevChar == s[i]):
-      length += 1
-    if (length > longCons):
-      longCons = length
-      longChar = s[i]
+  chardict = {
 
-  return longChar
+  }
+  longest = 1
+  former = ''
+  currLength = 0
+  for i in range(0, len(s)):
+    current = s[i]
+    if (i > 0):
+      former = s[i-1]
+
+    if (former is current):
+      currLength += 1
+      if (currLength > longest):
+        longest = currLength
+    else:
+      currLength = 1
+
+    if (current in chardict):
+      if (currLength > chardict[current]):
+        chardict.update({current: currLength})
+    else:
+      chardict.update({current: currLength})
+
+  maxChars = [key for key, value in chardict.items() if value == longest]
+  return maxChars
 
 
 # Part C. is_palindrome
