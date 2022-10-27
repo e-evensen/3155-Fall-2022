@@ -1,7 +1,7 @@
 # FLASK Tutorial 1 -- We show the bare bones code to get an app up and running
 
 # imports
-from crypt import methods
+#from crypt import methods
 import os                 # os is used to get environment variables IP & PORT
 from flask import Flask   # Flask is the web app that we will customize
 from flask import render_template
@@ -46,7 +46,8 @@ def new_note():
 
     print('request method is ', request.method)
     if (request.method == 'POST'):
-        return '<h1>POST method used for this request</h1>'
+        request_data = request.form
+        return f"data: {request_data} !"
     else:
         return render_template('new.html', user=a_user)  
 
