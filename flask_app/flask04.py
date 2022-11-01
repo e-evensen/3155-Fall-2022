@@ -31,29 +31,28 @@ with app.app_context():
 @app.route('/index')
 def index():
     #get user from database
-    a_user =  db.session.query(User).filter_by(email='mogli@uncc.edu')
+    a_user =  db.session.query(User).filter_by(email='eevensen@uncc.edu').one()
 
     return render_template('index.html', user = a_user)
 
 @app.route('/notes')
 def get_notes():
     #retrieve user from database
-    a_user = db.session.query(User).filter_by(email='mogli@uncc.edu')
+    a_user = db.session.query(User).filter_by(email='eevensen@uncc.edu').one()
     #retrieve notes from database
     my_notes = db.session.query(Note).all()
 
-    return render_template('notes.html', notes=notes, user=a_user)
+    return render_template('notes.html', notes=my_notes, user=a_user)
 
 @app.route('/notes/<note_id>')
 def get_note(note_id):  
-    a_user = db.session.query(User).filter_by(email='mogli@uncc.edu')
-    my_note = db.session.query(Note).filter_by(id=note_id)
+    a_user = db.session.query(User).filter_by(email='eevensen@uncc.edu').one()
+    my_note = db.session.query(Note).filter_by(id=note_id).one()
 
-    return render_template('note.html', note=notes[int(note_id)], user=a_user)
+    return render_template('note.html', note=my_note, user=a_user)
 
 @app.route('/notes/new', methods=['GET', 'POST'])
 def new_note():
-    a_user = {'name': 'Elijah', 'email': 'eevensen@uncc.edu'}
 
     if request.method == 'POST':
         title = request.form['title']
@@ -69,7 +68,7 @@ def new_note():
 
         return redirect(url_for('get_notes'))
     else:
-        a_user = db.session.query(User).filter_by(email='mogli@uncc.edu')
+        a_user = db.session.query(User).filter_by(email='eevensen@uncc.edu').one()
         return render_template('new.html', user=a_user)  
 
 app.run(host=os.getenv('IP', '127.0.0.1'),port=int(os.getenv('PORT', 5000)),debug=True)
