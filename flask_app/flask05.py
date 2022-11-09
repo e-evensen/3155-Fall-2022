@@ -2,6 +2,7 @@
 
 # imports
 #from crypt import methods
+from crypt import methods
 from datetime import date
 import os                 # os is used to get environment variables IP & PORT
 from flask import Flask   # Flask is the web app that we will customize
@@ -95,6 +96,14 @@ def update_note(note_id):
         my_note = db.session.query(Note).filter_by(id=note_id).one()
 
         return render_template('new.html', note=my_note, user=a_user)
+
+@app.route('/notes/delete/<note_id>', methods=['POST'])
+def delete_note(note_id):
+    my_note = db.session.query(Note).filter_by(id=note_id).one()
+    db.session.delete(my_note)
+    db.session.commit()
+
+    return redirect(url_for('get_notes'))
 
 # To see the web page in your web browser, go to the url,
 #   http://127.0.0.1:5000
