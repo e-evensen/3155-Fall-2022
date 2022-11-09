@@ -73,6 +73,14 @@ def new_note():
 
 app.run(host=os.getenv('IP', '127.0.0.1'),port=int(os.getenv('PORT', 5000)),debug=True)
 
+@app.route('/notes/edit/<note_id>')
+def update_note(note_id):
+    a_user = db.session.query(User).filter_by(email='eevensen@uncc.edu').one()
+
+    my_note = db.session.query(Note).filter_by(id=note_id).one()
+
+    return render_template('new.html', note=my_note, user=a_user)
+
 # To see the web page in your web browser, go to the url,
 #   http://127.0.0.1:5000
 
